@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>App-Tarefas</title>
+</head>
+<body>
+    <div id="app">
+                <ul>              
+                </ul>
+                <input type="text" placeholder="Tarefa">
+                <button>Criar Tarefa</button>
+              </div>
+    <script>
+    const tarefas = JSON.parse(localStorage.getItem('lista_tarefas'))  || [];
+    const botao = document.querySelector('button');
+    const lista = document.querySelector('ul');
+    
+    
+    const mostraTarefas=()=>{
+      for(tarefa of tarefas){
+        const texto = document.createTextNode(tarefa);
+        const item = document.createElement('li');
+        item.appendChild(texto);
+        const lista = document.querySelector('ul');
+        lista.appendChild(item);
+        const posicao = tarefas.indexOf(tarefa);
+        const link = document.createElement('a');
+        link.setAttribute('href', '#');
+        link.setAttribute('onclick', 'removerTarefa('+posicao+')');
+        const textoLink = document.createTextNode('  Excluir');
+        link.appendChild(textoLink);
+        item.appendChild(link);
+
+    }
+  }
+  mostraTarefas();
+
+  
+  const adicionaTarefa=()=>{
+    lista.innerHTML ="";
+    const textoInput = document.querySelector('input');
+    tarefas.push(textoInput.value);
+    mostraTarefas();
+    salvarStorage();
+  }
+
+  botao.onclick = adicionaTarefa;
+
+ 
+  const removerTarefa=(posicao)=>{
+    lista.innerHTML ="";
+    tarefas.splice(posicao, 1);
+    mostraTarefas();
+    salvarStorage();
+  }
+
+  
+  const salvarStorage=()=>{
+    localStorage.setItem('lista_tarefas', JSON.stringify(tarefas));
+  }
+
+    
+    </script>
+</body>
+</html>
